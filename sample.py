@@ -4,9 +4,10 @@ import logging.handlers
 import argparse
 import numpy
 from mpi4py import MPI
+import mpilogging
 
 
-logger = logging.getLogger(__name__)
+logger = mpilogging.mpi_logger(__name__)
 
 
 def mpi_init():
@@ -48,7 +49,8 @@ def setup_logging(userlevel, loghost):
         handler = logging.StreamHandler()
     handler.setLevel(userlevel)
     formatter=logging.Formatter('%(asctime)s:%(name)s:%(levelname)s'
-                                '%(message)s')
+                                ':%(tid)d:%(message)s')
+    handler.setFormatter(formatter)
     logging.root.addHandler(handler)
     logging.root.setLevel(userlevel)
 
@@ -74,6 +76,8 @@ if __name__ == '__main__':
     logger.info('start %s %s' % (str(args.loghost),str(args.level)))
     
     comm, rank = mpi_init()
+    mpilogging.log_tid['tid']=int(rank)
+    logger.debug('mpi initialized')
     exchange(comm, rank)
 
     comm.barrier()

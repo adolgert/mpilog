@@ -11,15 +11,13 @@
 #$ -M 6075920299@vtext.com
 #$ -m be
 
-# Let it write tiny, tiny core files so we see something went wrong.
-ulimit -c 1
+# Prohibit writing core files on error.
+ulimit -c 0
 
 set -x
 
 python receiver.py&
 
-python logtest.py
-
-ibrun python sample.py --loghost `hostname`
+ibrun python sample.py --loghost `hostname` --level debug
 
 pkill python

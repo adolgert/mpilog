@@ -36,6 +36,9 @@ UDP_PORT=5005
 genlog=logging.FileHandler(filename='head.log')
 genlog.setLevel(logging.DEBUG)
 memhandler = logging.handlers.MemoryHandler(10000,logging.DEBUG,genlog)
+formatter=logging.Formatter('%(asctime)s:%(name)s:%(levelname)s'
+                            ':%(tid)d:%(message)s')
+genlog.setFormatter(formatter)
 logger=logging.getLogger()
 logger.addHandler(memhandler)
 logger.setLevel(logging.DEBUG)
