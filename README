@@ -1,0 +1,14 @@
+This is a demonstration of using the Python mpi4py. The batch file
+is specific to the Texas Advanced Computing Center's Lonestar machine.
+
+The actual mpi4py sample does very little and is taken from the
+mpi4py documentation. More interesting is the logging.
+
+Logging from many worker tasks usually opens a separate file for each
+task. This batch job starts a logging service on the head node before
+starting worker tasks. The logging service listens over UDP for 
+the worker tasks to send messages. When the job is finished, the
+batch script kills the logging service.
+
+Andrew Dolgert
+Cornell Center for Advanced Computing
